@@ -33,14 +33,35 @@ namespace ControleDeContatos.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public IActionResult Editar()
+        public async Task<IActionResult> Editar(int id)
         {
-            return View();
+            var obj = await _repositorio.ListaPorId(id);
+            return View(obj);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Alterar(int id,Contato contato)
+        {
+            if(id != contato.Id)
+            {
+                return BadRequest();
+            }
+            await _repositorio.Altualizar(contato);
+            return RedirectToAction(nameof(Index)); 
         }
 
-        public IActionResult CancelaExclusao()
+        public async Task<IActionResult> CancelaExclusao(int id)
         {
-            return View();
+            var obj = await _repositorio.ListaPorId(id);
+            return View(obj);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Apagar(int id)
+        {
+            await _repositorio.Excluir(id);
+            return RedirectToAction(nameof(Index));
         }
     }
 }
