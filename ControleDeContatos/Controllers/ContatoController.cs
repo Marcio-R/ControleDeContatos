@@ -57,18 +57,24 @@ namespace ControleDeContatos.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Alterar(int id, Contato contato)
         {
-            if (id != contato.Id)
+            try
             {
-                return BadRequest();
-            }
-            if (ModelState.IsValid)
-            {
-                await _repositorio.Altualizar(contato);
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    await _repositorio.Altualizar(contato);
+                    TempData["MensagemSucesso"] = "Contato alterado com sucesso";
+                    return RedirectToAction(nameof(Index));
+
+                }
+                //Forçando o return a cair na View Editar e mais o obj contato.
+                return View("Editar", contato);
 
             }
-            //Forçando o return a cair na View Editar e mais o obj contato.
-            return View("Editar", contato);
+            catch (Exception error)
+            {
+                TempData["MensagemErro"] = $"Ops, não conseguimos atualizar seu contato, tente novamente:{error.Message} ";
+                return RedirectToAction(nameof(Index));
+            }
         }
 
         public async Task<IActionResult> CancelaExclusao(int id)
@@ -81,8 +87,17 @@ namespace ControleDeContatos.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Apagar(int id)
         {
-            await _repositorio.Excluir(id);
-            return RedirectToAction(nameof(Index));
+            try
+            {
+                await _repositorio.Excluir(id);
+                TempData["MensagemSucesso"] = "Contato apagado com sucesso";
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception error)
+            {
+                TempData["MensagemErro"] = $"Ops, não conseguimos apagar seu contato, tente novamente:{error.Message} ";
+                return RedirectToAction(nameof(Index));
+            }
         }
     }
 }
