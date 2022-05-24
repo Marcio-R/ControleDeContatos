@@ -29,8 +29,23 @@ namespace ControleDeContatos.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Criar(Contato contato)
         {
-            await _repositorio.Adicionar(contato);
-            return RedirectToAction(nameof(Index));
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    await _repositorio.Adicionar(contato);
+                    TempData["MensagemSucesso"] = "Contato cadastrado com sucesso";
+                    return RedirectToAction(nameof(Index));
+
+                }
+
+                return View(contato);
+            }
+            catch (Exception error)
+            {
+                TempData["MensagemErro"] = $"Ops, não conseguimos cadastrar seu contato, tente novamente:{error.Message} ";
+                return RedirectToAction(nameof(Index));
+            }
         }
 
         public async Task<IActionResult> Editar(int id)
@@ -40,14 +55,20 @@ namespace ControleDeContatos.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Alterar(int id,Contato contato)
+        public async Task<IActionResult> Alterar(int id, Contato contato)
         {
-            if(id != contato.Id)
+            if (id != contato.Id)
             {
                 return BadRequest();
             }
-            await _repositorio.Altualizar(contato);
-            return RedirectToAction(nameof(Index)); 
+            if (ModelState.IsValid)
+            {
+                await _repositorio.Altualizar(contato);
+                return RedirectToAction(nameof(Index));
+
+            }
+            //Forçando o return a cair na View Editar e mais o obj contato.
+            return View("Editar", contato);
         }
 
         public async Task<IActionResult> CancelaExclusao(int id)
