@@ -9,11 +9,12 @@ namespace ControleDeContatos.Data
 {
     public class ControleDeContatosContext : DbContext
     {
-        public ControleDeContatosContext (DbContextOptions<ControleDeContatosContext> options)
+        public ControleDeContatosContext(DbContextOptions<ControleDeContatosContext> options)
             : base(options)
         {
         }
 
-        public DbSet<Contato>? Contatos { get; set; }
+        public DbSet<Contato> Contatos { get; set; }
+        public DbSet<Usuario> Usuarios { get; set; }
     }
 }

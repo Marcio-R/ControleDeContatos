@@ -10,6 +10,7 @@ builder.Services.AddDbContext<ControleDeContatosContext>(options =>
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<ContatoRepositorio>();
+builder.Services.AddScoped<UsuarioRepositorio>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
