@@ -1,0 +1,20 @@
+﻿@model ControleDeContatos.Models.Usuario
+@{
+    ViewData["Title"] = "CancelaExclusao";
+}
+
+<div class="text-center">
+    <h3>Realmente deseja apagar o contato (@Model.Nome) ?</h3>
+</div>
+
+<div class="d-grid gap-2">
+    <a class="btn btn-primary" role="button" asp-controller="Usuarios" asp-action="Index">Cancelar exclusão</a>
+
+    <form asp-action="Apagar" asp-controller="Usuarios">
+        <div class="d-grid gap-2">
+            <input type="hidden" asp-for="Id" />
+            <input type="submit" value="Confirma exclusão" class="btn btn-danger" />
+        </div>
+    </form>
+</div>
+

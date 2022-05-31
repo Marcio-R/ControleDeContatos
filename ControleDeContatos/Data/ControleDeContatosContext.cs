@@ -16,5 +16,7 @@ namespace ControleDeContatos.Data
 
         public DbSet<Contato> Contatos { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<ControleDeContatos.Models.LoginModel>? LoginModel { get; set; }
+        
     }
 }

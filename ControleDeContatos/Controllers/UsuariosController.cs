@@ -4,19 +4,18 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ControleDeContatos.Controllers
 {
-
-    public class ContatoController : Controller
+    public class UsuariosController : Controller
     {
-        private readonly ContatoRepositorio _repositorio;
+        private readonly UsuarioRepositorio _repositorio;
 
-        public ContatoController(ContatoRepositorio repositorio)
+        public UsuariosController(UsuarioRepositorio repositorio)
         {
             _repositorio = repositorio;
         }
 
         public async Task<IActionResult> Index()
         {
-            var obj = await _repositorio.BuscarTodos();
+            var obj = await _repositorio.TrazerTodos();
             return View(obj);
         }
 
@@ -27,59 +26,54 @@ namespace ControleDeContatos.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Criar(Contato contato)
+        public async Task<IActionResult> Criar(Usuario usuario)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    await _repositorio.Adicionar(contato);
-                    TempData["MensagemSucesso"] = "Contato cadastrado com sucesso";
+                    await _repositorio.Adicionar(usuario);
+                    TempData["MensagemSucesso"] = "Usuario Cadastrado";
                     return RedirectToAction(nameof(Index));
-
                 }
-
-                return View(contato);
+                return View(usuario);
             }
             catch (Exception error)
             {
-                TempData["MensagemErro"] = $"Ops, não conseguimos cadastrar seu contato, tente novamente:{error.Message} ";
+                TempData["MensagemErro"] = $"Ops, não conseguimos cadastrar seu usuario, tente novamente:{error.Message} ";
                 return RedirectToAction(nameof(Index));
             }
         }
 
         public async Task<IActionResult> Editar(int id)
         {
-            var obj = await _repositorio.ListaPorId(id);
+            var obj = await _repositorio.BuscarPorId(id);
             return View(obj);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Alterar(Contato contato)
+        public async Task<IActionResult> Editar(Usuario usuario)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    await _repositorio.Altualizar(contato);
-                    TempData["MensagemSucesso"] = "Contato alterado com sucesso";
+                    await _repositorio.Atualizar(usuario);
+                    TempData["MensagemSucesso"] = "Usuario Atualizado";
                     return RedirectToAction(nameof(Index));
-
                 }
-                //Forçando o return a cair na View Editar e mais o obj contato.
-                return View("Editar", contato);
-
+                return View("Editar", usuario);
             }
             catch (Exception error)
             {
-                TempData["MensagemErro"] = $"Ops, não conseguimos atualizar seu contato, tente novamente:{error.Message} ";
+                TempData["MensagemErro"] = $"Erro ao atualizar usúario {error.Message}";
                 return RedirectToAction(nameof(Index));
             }
         }
-
-        public async Task<IActionResult> CancelaExclusao(int id)
+        public async Task<IActionResult> TelaExclusao(int id)
         {
-            var obj = await _repositorio.ListaPorId(id);
+            var obj = await _repositorio.BuscarPorId(id);
             return View(obj);
         }
 
@@ -90,12 +84,12 @@ namespace ControleDeContatos.Controllers
             try
             {
                 await _repositorio.Excluir(id);
-                TempData["MensagemSucesso"] = "Contato apagado com sucesso";
+                TempData["MensagemSucesso"] = $"Usuario apagado";
                 return RedirectToAction(nameof(Index));
             }
-            catch (Exception error)
+            catch(Exception error)
             {
-                TempData["MensagemErro"] = $"Ops, não conseguimos apagar seu contato, tente novamente:{error.Message} ";
+                TempData["MensagemErro"] = $"Erro ao excluir usúario {error.Message}";
                 return RedirectToAction(nameof(Index));
             }
         }

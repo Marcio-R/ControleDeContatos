@@ -25,7 +25,7 @@ namespace ControleDeContatos.Repositorio
 
         public async Task Adicionar(Usuario usuario)
         {
-            usuario.DataCadastro = DateTime.Now;
+
             await _context.AddAsync(usuario);
             await _context.SaveChangesAsync();
         }
@@ -39,7 +39,7 @@ namespace ControleDeContatos.Repositorio
             }
             try
             {
-                _context.Update(obj);
+                _context.Update(usuario);
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException e)
@@ -47,11 +47,16 @@ namespace ControleDeContatos.Repositorio
                 throw new DbUpdateConcurrencyException(e.Message);
             }
         }
-        public async Task Apagar(int id)
+        public async Task Excluir(int id)
         {
             var obj = await _context.Usuarios.FindAsync(id);
             _context.Usuarios.Remove(obj);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<Usuario> BuscarLogin(string login)
+        {
+            return await _context.Usuarios.FirstOrDefaultAsync(x => x.Login.ToUpper() == login.ToUpper());
         }
 
     }

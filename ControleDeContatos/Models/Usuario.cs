@@ -10,12 +10,18 @@ namespace ControleDeContatos.Models
         [Required(ErrorMessage = "Digite o nome do contato")]
         public string Nome { get; set; }
 
+        [Required(ErrorMessage = "Digite o login do contato")]
         public string Login { get; set; }
+
+        [Required(ErrorMessage = "Digite o e-mail do contato")]
         public string Email { get; set; }
-        public PerfilEnum Perfil { get; set; }
-        public string Senha { get; set; }
-        public DateTime DataCadastro { get; set; }
-        public DateTime? DataAtualizacao { get; set; }
+
+        [Required(ErrorMessage = "Informe o perfirl do contato")]
+        public PerfilEnum? Perfil { get; set; }
+
+        [Required(ErrorMessage = "Digite o senha do contato")]
+        public string? Senha { get; set; }
+
     }
 }
 

@@ -2,7 +2,7 @@
 @model ControleDeContatos.Models.Usuario
 
 @{
-    ViewData["Title"] = "CriarUsuario";
+    ViewData["Title"] = "Criar";
 }
 
 <div class="text-center">
@@ -11,7 +11,7 @@
 
 </div>
 <div class="mb-3">
-    <form asp-action="CriarUsuario">
+    <form asp-action="Criar">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="mb-3">
             <label asp-for="Nome" class="control-label"></label>
@@ -32,7 +32,7 @@
             <label asp-for="Perfil" class="control-label"></label>
             <select asp-for="Perfil" class="form-control">
                 <option value="0">Selecione</option>
-                <option value="@PerfilEnum.Admin">Administrado</option>
+                <option value="@PerfilEnum.Administrador">Administrado</option>
                 <option value="@PerfilEnum.Padrao">Padrão</option>
             </select>
             <span asp-validation-for="Perfil" class="text-danger"></span>
@@ -45,9 +45,7 @@
        
         <div class="d-grid gap-2">
             <button type="submit" class="btn btn-primary btn-outline-dark">Adicionar</button>
-            <a class="btn btn-secondary btn-outline-dark" asp-action="Index" asp-controller="Contato" role="button">Voltar</a>
+            <a class="btn btn-secondary btn-outline-dark" asp-action="Index" asp-controller="Usuarios" role="button">Voltar</a>
         </div>
     </form>
 </div>
-
-

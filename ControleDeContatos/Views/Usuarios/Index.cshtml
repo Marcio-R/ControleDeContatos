@@ -1,12 +1,13 @@
-﻿@model List<ControleDeContatos.Models.Usuario>
+﻿@model IEnumerable<ControleDeContatos.Models.Usuario>
+
 @{
-    ViewData["Title"] = "Listagem de Usuários";
+    ViewData["Title"] = "Listagem de usuarios";
 }
 
 <div class="text-center">
 
     <div class="d-grid-2 d-md-flex justify-content-md-start">
-        <a class="btn btn-primary" role="button" asp-action="CriarUsuario" asp-controller="Usuario">Adicionar novo usuário</a>
+        <a class="btn btn-primary" role="button" asp-action="Criar" asp-controller="Usuarios">Adicionar novo usuario</a>
     </div>
     <br />
 
@@ -30,7 +31,7 @@
 
     <br />
 
-    <h1 class="display-4">Listagem de usuarios</h1>
+    <h1 class="display-4">Listagem de usuários</h1>
 
     <table class="table" id="table-usuarios">
         <thead>
@@ -39,23 +40,25 @@
                 <th scope="col">Nome</th>
                 <th scope="col">Login</th>
                 <th scope="col">Email</th>
-                <th scope="col">Data de cadastro</th>
+                <th scope="col">Perfil</th>
+                <th scope="col">Senha</th>
                 <th scope="col"></th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var usuario in Model)
+            @foreach (var item in Model)
             {
                 <tr>
-                    <th scope="row">@usuario.Id</th>
-                    <td>@usuario.Nome</td>
-                    <td>@usuario.Login</td>
-                    <td>@usuario.Email</td>
-                    <td>@usuario.DataCadastro</td>
+                    <th scope="row">@item.Id</th>
+                    <td>@item.Nome</td>
+                    <td>@item.Login</td>
+                    <td>@item.Email</td>
+                    <td>@item.Perfil</td>
+                    <td>@item.Senha </td>
                     <td>
                         <div class="btn-group" role="group">
-                            <a role="button" class="btn btn-primary  btn-outline-dark" asp-route-id="@usuario.Id" asp-controller="Usuario" asp-action="Editar">Editar</a>
-                            <a role="button" class="btn btn-danger  btn-outline-dark" asp-route-id="@usuario.Id" asp-controller="Usuario" asp-action="CancelaExclusao">Apagar</a>
+                            <a role="button" class="btn btn-primary  btn-outline-dark" asp-route-id="@item.Id" asp-controller="Usuarios" asp-action="Editar">Editar</a>
+                            <a role="button" class="btn btn-danger  btn-outline-dark" asp-route-id="@item.Id" asp-controller="Usuarios" asp-action="TelaExclusao">Apagar</a>
                         </div>
                     </td>
                 </tr>
