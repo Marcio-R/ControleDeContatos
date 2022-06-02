@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using ControleDeContatos.Data;
 using ControleDeContatos.Repositorio;
+using ControleDeContatos.Helper;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ControleDeContatosContext>(options =>
@@ -11,6 +12,15 @@ builder.Services.AddDbContext<ControleDeContatosContext>(options =>
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<ContatoRepositorio>();
 builder.Services.AddScoped<UsuarioRepositorio>();
+builder.Services.AddScoped<RepositorioSessao>();
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+builder.Services.AddSession(o =>
+{
+    o.Cookie.HttpOnly = true;
+    o.Cookie.IsEssential = true;
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -27,6 +37,8 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
+app.UseSession();
 
 app.MapControllerRoute(
     name: "default",
